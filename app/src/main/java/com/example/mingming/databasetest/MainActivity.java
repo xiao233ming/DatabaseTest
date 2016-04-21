@@ -19,6 +19,15 @@ public class MainActivity extends Activity {
         Button createDatabase = (Button) findViewById(R.id.create_database);
         Button addData = (Button) findViewById(R.id.add_data);
         Button updateData = (Button) findViewById(R.id.update_data);
+        Button deleteButton = (Button) findViewById(R.id.delete_data);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                db.delete("Book","pages > ?",new String[]{"500"});
+            }
+        });
 
         updateData.setOnClickListener(new View.OnClickListener() {
             @Override
