@@ -25,6 +25,40 @@ public class MainActivity extends Activity {
         Button updateData = (Button) findViewById(R.id.update_data);
         Button deleteButton = (Button) findViewById(R.id.delete_data);
         Button queryButton = (Button) findViewById(R.id.query_data);
+        Button replaceData = (Button) findViewById(R.id.replace_data);
+
+        replaceData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                db.beginTransaction();//开启事务
+                try{
+                    /*
+                    我们在删除旧数据的操作完成后
+                    手动抛出了一个 NullPointerException，
+                    这样添加新数据的代码就执行不到了。不过由于事务的存
+在，中途出现异常    会导致事务的失败，此时旧数据应该是删除不掉的。
+                     */
+                    db.delete("Book",null,null);
+                    if (true){
+                        //在这里手动抛出一个异常，让事务失败
+                        throw new NullPointerException();
+                    }
+                    ContentValues values = new ContentValues();
+                    values.put("name","Game of Thrones");
+                    values.put("author","George Martin");
+                    values.put("pages",720);
+                    values.put("price",20.85);
+                    db.insert("Boook",null,values);
+                    db.setTransactionSuccessful();//事务已经执行成功
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    db.endTransaction();//结束事务
+                }
+            }
+        });
 
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
