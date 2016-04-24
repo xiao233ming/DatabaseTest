@@ -1,5 +1,6 @@
 package com.example.mingming.databasetest;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -49,4 +50,5 @@ public class MyDatabaseHelper extends SQLiteOpenHelper{
                 default:
         }
     }
+    ContentResolver
 }
